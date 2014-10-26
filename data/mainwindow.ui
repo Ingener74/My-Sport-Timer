@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>417</width>
+    <height>175</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Спортивный таймер</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resouces.qrc">
+    <normaloff>:/res/clock.png</normaloff>:/res/clock.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <pointsize>72</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>29:00</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>417</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="SettingsAction"/>
+    <addaction name="separator"/>
+    <addaction name="ExitAction"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="SettingsAction">
+   <property name="icon">
+    <iconset resource="resouces.qrc">
+     <normaloff>:/res/main.png</normaloff>:/res/main.png</iconset>
+   </property>
+   <property name="text">
+    <string>Настройки</string>
+   </property>
+   <property name="toolTip">
+    <string>Вход в настройки программы</string>
+   </property>
+  </action>
+  <action name="ExitAction">
+   <property name="icon">
+    <iconset resource="resouces.qrc">
+     <normaloff>:/res/exit.png</normaloff>:/res/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Выход</string>
+   </property>
+   <property name="whatsThis">
+    <string>Обеспечивает выход</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="resouces.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>ExitAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>271</x>
+     <y>181</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
