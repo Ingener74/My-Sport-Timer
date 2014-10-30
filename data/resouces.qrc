@@ -5,5 +5,7 @@
         <file>main.png</file>
         <file>clock.png</file>
         <file>exit.png</file>
+        <file>start.svg</file>
+        <file>stop.svg</file>
     </qresource>
 </RCC>
