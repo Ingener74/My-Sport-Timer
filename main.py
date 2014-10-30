@@ -45,7 +45,6 @@ class SettingsWindow(QWidget, Ui_SettingsWindow):
 		self.setupUi(self)
 		
 		json_data = open("config.json")
-		
 		self._json_data = json.load(json_data)
 		
 		self.spinBoxSessionMinutes.setValue(int(self._json_data["session_minutes"]))
@@ -72,9 +71,6 @@ class SettingsWindow(QWidget, Ui_SettingsWindow):
 		
 	def touchSecondsValueChanged(self, val):
 		self.saveToJson("touch_seconds", val)
-		
-	def __del__(self):
-		print "Setting window dtor"
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 	def __init__(self, parent=None):
@@ -82,8 +78,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.setupUi(self)
 		
 		self.SettingsAction.triggered.connect(self.settings)
+# 		self.ExitAction.triggered.connect(self.quit_)
 		
-		self.set = SettingsWindow(self)
+		self._settingsWindow = SettingsWindow(self)
 		
 		self.newSportTimer()
 		self.lcdNumberTime.display(str(self._sportTimer))
@@ -100,7 +97,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 #		self.TrayIcon.showMessage(u'Спортивный таймер...', u'Пора позаниматься!!!', qg.QSystemTrayIcon.Information, 2000)
 		
 	def newSportTimer(self):
-		self._sportTimer = SportTimer(self.set.spinBoxSessionMinutes.value() - 1, 59, self.OnCountdown)
+		self._sportTimer = SportTimer(self._settingsWindow.spinBoxSessionMinutes.value() - 1, 59, self.OnCountdown)
 		
 	def start_button(self):
 		self.Timer1 = self.startTimer(1000)
@@ -115,7 +112,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		return QMainWindow.timerEvent(self, *args, **kwargs)
 		
 	def settings(self):
-		self.set.show()
+		self._settingsWindow.show()
 
 if __name__ == '__main__':
 	app = QApplication(sys.argv)
