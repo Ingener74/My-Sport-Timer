@@ -44,8 +44,7 @@ class SettingsWindow(QWidget, Ui_SettingsWindow):
 		super(SettingsWindow, self).__init__(parent)
 		self.setupUi(self)
 		
-		json_data = open("config.json")
-		self._json_data = json.load(json_data)
+		self._json_data = json.load(open("config.json"))
 		
 		self.spinBoxSessionMinutes.setValue(int(self._json_data["session_minutes"]))
 		self.spinBoxTouchMinutes.setValue(int(self._json_data["touch_minutes"]))
@@ -82,8 +81,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		
 		self._settingsWindow = SettingsWindow(self)
 		
-		self.newSportTimer()
-		self.lcdNumberTime.display(str(self._sportTimer))
+		self.changeLCD()
 		
 		self.pushButtonStart.connect(SIGNAL('clicked()'), self.start_button)
 		
