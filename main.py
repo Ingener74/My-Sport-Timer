@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
+import sys, json
 try:
 	from PySide.QtGui import *
 	from PySide.QtCore import *
@@ -40,9 +40,41 @@ class SportTimer:
 		return outstr
 
 class SettingsWindow(QWidget, Ui_SettingsWindow):
-	def __init__(self, parent=None):
+	def __init__(self, mainWindow, parent=None):
 		super(SettingsWindow, self).__init__(parent)
 		self.setupUi(self)
+		
+		json_data = open("config.json")
+		
+		self._json_data = json.load(json_data)
+		
+		self.spinBoxSessionMinutes.setValue(int(self._json_data["session_minutes"]))
+		self.spinBoxTouchMinutes.setValue(int(self._json_data["touch_minutes"]))
+		self.spinBoxTouchSeconds.setValue(int(self._json_data["touch_seconds"]))
+		
+		self.spinBoxSessionMinutes.connect(SIGNAL('valueChanged(int)'), self.sessionMinutesValueChanged)
+		self.spinBoxSessionMinutes.connect(SIGNAL('valueChanged(int)'), mainWindow.changeLCD)
+		
+		self.spinBoxTouchMinutes.connect(SIGNAL('valueChanged(int)'), self.touchMinutesValueChanged)
+		
+		self.spinBoxTouchSeconds.connect(SIGNAL('valueChanged(int)'), self.touchSecondsValueChanged)
+		
+	def saveToJson(self, key, val):
+		self._json_data[key] = val
+		with open("config.json", "w") as json_file:
+			json.dump(self._json_data, json_file, sort_keys=True, indent=4, separators=(',', ':'))
+		
+	def sessionMinutesValueChanged(self, val):
+		self.saveToJson("session_minutes", val)
+			
+	def touchMinutesValueChanged(self, val):
+		self.saveToJson("touch_minutes", val)
+		
+	def touchSecondsValueChanged(self, val):
+		self.saveToJson("touch_seconds", val)
+		
+	def __del__(self):
+		print "Setting window dtor"
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 	def __init__(self, parent=None):
@@ -51,12 +83,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		
 		self.SettingsAction.triggered.connect(self.settings)
 		
-		self.set = SettingsWindow()
+		self.set = SettingsWindow(self)
 		
 		self.newSportTimer()
 		self.lcdNumberTime.display(str(self._sportTimer))
 		
 		self.pushButtonStart.connect(SIGNAL('clicked()'), self.start_button)
+		
+	def changeLCD(self):
+		self.newSportTimer()
+		self.lcdNumberTime.display(str(self._sportTimer))
 		
 	def OnCountdown(self):
 		self.newSportTimer()

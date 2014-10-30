@@ -58,7 +58,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QSpinBox" name="MinuteSpinBox2">
+       <widget class="QSpinBox" name="spinBoxTouchMinutes">
         <property name="maximum">
          <number>59</number>
         </property>
@@ -68,7 +68,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QSpinBox" name="SecondsSpinBox2">
+       <widget class="QSpinBox" name="spinBoxTouchSeconds">
         <property name="maximum">
          <number>59</number>
         </property>
@@ -122,8 +122,8 @@
  </widget>
  <tabstops>
   <tabstop>spinBoxSessionMinutes</tabstop>
-  <tabstop>MinuteSpinBox2</tabstop>
-  <tabstop>SecondsSpinBox2</tabstop>
+  <tabstop>spinBoxTouchMinutes</tabstop>
+  <tabstop>spinBoxTouchSeconds</tabstop>
   <tabstop>ApplyButton</tabstop>
   <tabstop>CancelButton</tabstop>
  </tabstops>
