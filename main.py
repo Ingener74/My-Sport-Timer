@@ -112,8 +112,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def settings(self):
 		self._settingsWindow.show()
 
-if __name__ == '__main__':
+def testOnCountdown():
+	pass
+
+def mainImpl():
 	app = QApplication(sys.argv)
 	frame = MainWindow()
 	frame.show()
 	app.exec_()
+
+def main():
+	try:
+		mainImpl()
+	except Exception as e:
+		print str(e)
+
+if __name__ == '__main__':
+	main()
+	
+	
