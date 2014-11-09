@@ -40,36 +40,43 @@ class SportTimer:
 		return outstr
 
 class SettingsWindow(QWidget, Ui_SettingsWindow):
+	
+	CONFIG_FILE_NAME   = 'config.json'
+
+	SESSION_MINUTES    = 'session_minutes'
+	TOUCH_MINUTES      = 'touch_minutes'
+	TOUCH_SECONDS      = 'touch_seconds'
+	
 	def __init__(self, mainWindow, parent=None):
 		super(SettingsWindow, self).__init__(parent)
 		self.setupUi(self)
 		
-		self._json_data = json.load(open("config.json"))
+		self._json_data = json.load(open(self.CONFIG_FILE_NAME))
 		
-		self.spinBoxSessionMinutes.setValue(int(self._json_data["session_minutes"]))
-		self.spinBoxTouchMinutes.setValue(int(self._json_data["touch_minutes"]))
-		self.spinBoxTouchSeconds.setValue(int(self._json_data["touch_seconds"]))
+		self.spinBoxSessionMinutes.setValue(int(self._json_data[self.SESSION_MINUTES]))
+		self.spinBoxTouchMinutes.setValue(int(self._json_data[self.TOUCH_MINUTES]))
+		self.spinBoxTouchSeconds.setValue(int(self._json_data[self.TOUCH_SECONDS]))
 		
-		self.spinBoxSessionMinutes.connect(SIGNAL('valueChanged(int)'), self.sessionMinutesValueChanged)
-		self.spinBoxSessionMinutes.connect(SIGNAL('valueChanged(int)'), mainWindow.changeLCD)
+		self.spinBoxSessionMinutes.valueChanged.connect(self.sessionMinutesValueChanged)
+		self.spinBoxSessionMinutes.valueChanged.connect(mainWindow.changeLCD)
+
+		self.spinBoxTouchMinutes.valueChanged.connect(self.touchMinutesValueChanged)
 		
-		self.spinBoxTouchMinutes.connect(SIGNAL('valueChanged(int)'), self.touchMinutesValueChanged)
-		
-		self.spinBoxTouchSeconds.connect(SIGNAL('valueChanged(int)'), self.touchSecondsValueChanged)
+		self.spinBoxTouchSeconds.valueChanged.connect(self.touchSecondsValueChanged)
 		
 	def saveToJson(self, key, val):
 		self._json_data[key] = val
-		with open("config.json", "w") as json_file:
+		with open(self.CONFIG_FILE_NAME, "w") as json_file:
 			json.dump(self._json_data, json_file, sort_keys=True, indent=4, separators=(',', ':'))
 		
 	def sessionMinutesValueChanged(self, val):
-		self.saveToJson("session_minutes", val)
+		self.saveToJson(self.SESSION_MINUTES, val)
 			
 	def touchMinutesValueChanged(self, val):
-		self.saveToJson("touch_minutes", val)
+		self.saveToJson(self.TOUCH_MINUTES, val)
 		
 	def touchSecondsValueChanged(self, val):
-		self.saveToJson("touch_seconds", val)
+		self.saveToJson(self.TOUCH_SECONDS, val)
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 	def __init__(self, parent=None):
@@ -83,7 +90,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		
 		self.changeLCD()
 		
-		self.pushButtonStart.connect(SIGNAL('clicked()'), self.start_button)
+		self.pushButtonStart.clicked.connect(self.start_button)
 		
 	def changeLCD(self):
 		self.newSportTimer()
