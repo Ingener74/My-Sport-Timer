@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys, json
+import sys
+import json
 try:
 	from PySide.QtGui import *
 	from PySide.QtCore import *
